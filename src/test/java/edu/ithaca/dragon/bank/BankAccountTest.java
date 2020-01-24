@@ -26,16 +26,18 @@ class BankAccountTest {
         assertTrue(BankAccount.isEmailValid( "a@b.com"));
         assertFalse( BankAccount.isEmailValid(""));
 
-        assertTrue(BankAccount.isEmailValid("letsgo@gmail.com"));
-        assertFalse(BankAccount.isEmailValid("bad-dash-@gmail.com"));
-        assertFalse(BankAccount.isEmailValid("nodomain@"));
-        assertFalse(BankAccount.isEmailValid("@noprefix.com"));
-        assertFalse(BankAccount.isEmailValid("two..dots@email"));
-        assertFalse(BankAccount.isEmailValid("test@two..dots"));
-        assertFalse(BankAccount.isEmailValid("hast#tag@nogood.com"));
-        assertFalse(BankAccount.isEmailValid("pound@bad#domain.com"));
-        assertFalse(BankAccount.isEmailValid(".start@dot.com"));
-        assertFalse(BankAccount.isEmailValid("test@two..com"));
+        assertTrue(BankAccount.isEmailValid("letsgo@gmail.com")); // equivalence class: all valid    boarder case: no
+        assertFalse(BankAccount.isEmailValid("bad-dash-@gmail.com")); // equivalence class: prefix    boarder case: no
+        assertFalse(BankAccount.isEmailValid("nodomain@")); // equivalence class: domain     boarder case: yes
+        assertFalse(BankAccount.isEmailValid("@noprefix.com")); // equivalence class: prefix       boarder case: yes
+        assertFalse(BankAccount.isEmailValid("two..dots@email.com")); // equivalence class: prefix    boarder case: yes
+        assertFalse(BankAccount.isEmailValid("test@two..dots")); // equivalence class: domain     boarder case: yes
+        assertFalse(BankAccount.isEmailValid("hast#tag@nogood.com")); // equivalence class: prefix    boarder case: no
+        assertFalse(BankAccount.isEmailValid("pound@bad#domain.com")); // equivalence class: domain   boarder case: no
+        assertFalse(BankAccount.isEmailValid(".start@dot.com")); // equivalence class: prefix     boarder case: no
+        assertFalse(BankAccount.isEmailValid("test@two..com")); // equivalence class: domain    boarder case: yes
+
+        // not present: equivalence class - both invalid not present, boarder case - multiple "@" case not present
     }
 
     @Test
