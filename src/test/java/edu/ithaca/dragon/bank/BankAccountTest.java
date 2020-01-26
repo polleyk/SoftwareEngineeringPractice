@@ -23,21 +23,58 @@ class BankAccountTest {
 
     @Test
     void isEmailValidTest(){
-        assertTrue(BankAccount.isEmailValid( "a@b.com"));
-        assertFalse( BankAccount.isEmailValid(""));
+        //sorry there are many
 
-        assertTrue(BankAccount.isEmailValid("letsgo@gmail.com")); // equivalence class: all valid    boarder case: no
-        assertFalse(BankAccount.isEmailValid("bad-dash-@gmail.com")); // equivalence class: prefix    boarder case: no
-        assertFalse(BankAccount.isEmailValid("nodomain@")); // equivalence class: domain     boarder case: yes
-        assertFalse(BankAccount.isEmailValid("@noprefix.com")); // equivalence class: prefix       boarder case: yes
-        assertFalse(BankAccount.isEmailValid("two..dots@email.com")); // equivalence class: prefix    boarder case: yes
-        assertFalse(BankAccount.isEmailValid("test@two..dots")); // equivalence class: domain     boarder case: yes
-        assertFalse(BankAccount.isEmailValid("hast#tag@nogood.com")); // equivalence class: prefix    boarder case: no
-        assertFalse(BankAccount.isEmailValid("pound@bad#domain.com")); // equivalence class: domain   boarder case: no
-        assertFalse(BankAccount.isEmailValid(".start@dot.com")); // equivalence class: prefix     boarder case: no
-        assertFalse(BankAccount.isEmailValid("test@two..com")); // equivalence class: domain    boarder case: yes
+        //test @ symbols
+        //class 1: 0 @ symbols
+        assertFalse(BankAccount.isEmailValid("")); //border case
+        assertFalse(BankAccount.isEmailValid("noatsign")); //middle case
+        //class 2: @ symbol at end
+        assertFalse(BankAccount.isEmailValid("@")); //border case
+        assertFalse(BankAccount.isEmailValid("@noprefix"));
+        assertFalse(BankAccount.isEmailValid("nodomain@"));
+        //class 3: @ symbol in middle
+        assertTrue(BankAccount.isEmailValid("a@b.com")); //border case - small email
+        assertTrue(BankAccount.isEmailValid("prefix@domain.com")); //middle case
+        //class 4: many @ symbols
+        assertFalse(BankAccount.isEmailValid("too@many@ats")); //border case: 2 @s
+        assertFalse(BankAccount.isEmailValid("t@o@o@m@a@n@y")); //border case: lots of @s
+        assertFalse(BankAccount.isEmailValid("prefix@domain@extra@com")); //middle case
 
-        // not present: equivalence class - both invalid not present, boarder case - multiple "@" case not present
+        //test # symbols
+        //class 1: 0 #s
+        assertTrue(BankAccount.isEmailValid("nopounds@good.email")); //border and middle case?
+        //class 2: any #s
+        assertFalse(BankAccount.isEmailValid("a#pound@bad.email")); //border case: 1#
+        assertFalse(BankAccount.isEmailValid("bad@po#und.email"));
+        assertFalse(BankAccount.isEmailValid("p#o#u#n#d#s#@b#a#d.ema#il")); //border case
+        assertFalse(BankAccount.isEmailValid("two#pounds@bad.e#mail")); //middle case
+
+        //test . symbols (should hold same for -)
+        //class 1: no dots!
+        assertTrue(BankAccount.isEmailValid("nodots@is.fine")); //is there another case idk
+        //class 2: dot between good chars (nums or letters)
+        assertTrue(BankAccount.isEmailValid("good.dot@good.email")); //border case: 1 dot
+        assertTrue(BankAccount.isEmailValid("l.o.t.s.o.f.d.o.t.s@fine.email")); //border case
+        assertTrue(BankAccount.isEmailValid("some.dots.are.good@fine-good.email")); //middle case
+        //class 3: dot not surrounded by nums or letters
+        assertFalse(BankAccount.isEmailValid(".bad@bad.email")); //border cases: dot at ends
+        assertFalse(BankAccount.isEmailValid("bad.@bad.email"));
+        assertFalse(BankAccount.isEmailValid("nogood@.bad.email"));
+        assertFalse(BankAccount.isEmailValid("double..dots@bad.email")); //middle cases: dots by
+        assertFalse(BankAccount.isEmailValid("double.dots@bad..email"));
+
+        //test domain valid dot things
+        //class 1: dot at least 2 chars after
+        assertTrue(BankAccount.isEmailValid("good@good.go")); //border case: only 2
+        assertTrue(BankAccount.isEmailValid("good@good.holycrapthisislong")); //border: lots and lots
+        assertTrue(BankAccount.isEmailValid("good@good.com")); //middle case
+        //class 2: too few chars after dot
+        assertFalse(BankAccount.isEmailValid("bad@bad.b")); //border: only 1
+        assertFalse(BankAccount.isEmailValid("nodot@bad.")); //other border: nothing after dot
+        //class 3: no dot!
+        assertFalse(BankAccount.isEmailValid("nodot@bad")); //this is kind of it my dudes
+
     }
 
     @Test
