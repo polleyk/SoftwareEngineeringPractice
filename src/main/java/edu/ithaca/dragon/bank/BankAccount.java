@@ -76,6 +76,37 @@ public class BankAccount {
      * @return true if positive and 2 or fewer decimal places, false otherwise
      */
     public static boolean isAmountValid(double amount) {
-        return false;
+
+        //no negatives
+        if (amount < 0) {
+            return false;
+        }
+
+        String amount_string = String.valueOf(amount);
+        int length = amount_string.length();
+        int decimalIndex = amount_string.indexOf('.');
+
+        //scientific notation handling
+        int eIndex = amount_string.indexOf('E');
+
+        if (eIndex != -1) {
+            if (amount_string.contains("-")) {
+                return false;
+            }
+            int exponent = Integer.parseInt(amount_string.substring(eIndex+1, length));
+            if (eIndex - decimalIndex > exponent+3) {
+                return false;
+            }
+            return true;
+        }
+
+        //check number decimals, non exponent
+        int lastIndex = length-1;
+        int decimals = lastIndex - decimalIndex;
+        if (decimals > 2) {
+            return false;
+        }
+        return true;
+
     }
 }
