@@ -30,73 +30,71 @@ public class BankAccount {
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
      */
     public void withdraw (double amount) throws InsufficientFundsException {
+        if (amount < 0) {
+            return;
+        }
+
         if (amount <= balance) {
-            balance -= amount;
-        } else {
-            throw new InsufficientFundsException("Not enough money");
+            balance = balance - amount;
+        }
+        else {
+            throw new InsufficientFundsException("Insufficient funds");
         }
     }
 
 
     public static boolean isEmailValid(String email){
-        int length = email.length();
-        int currIndex = email.indexOf('@');
 
-        if (currIndex == -1) {
-            return false;
-        }
-        else if (currIndex == 0) {
-            return false;
-        }
-        else if (currIndex == length - 1) {
+        int length = email.length();
+        int atIndex = email.indexOf('@');
+
+        if (atIndex == -1 || atIndex == 0 || atIndex == length-1) {
             return false;
         }
 
         int dot = email.lastIndexOf('.');
-        if (currIndex > dot) {
-            return false;
-        }
-        else if (currIndex > email.length() - 3) {
+        if (atIndex > dot || dot > email.length() - 3){
             return false;
         }
 
         String[] emailSplit = email.split("@");
-        for (int currEmail = 0; currEmail < emailSplit.length; currEmail++) {
+        for (int emailPiece = 0; emailPiece < emailSplit.length; emailPiece++) {
 
-            String currPiece = emailSplit[currEmail];
+            String currPiece = emailSplit[emailPiece];
             for (int charIndex = 0; charIndex < currPiece.length(); charIndex++) {
                 char currChar = currPiece.charAt(charIndex);
 
-                Boolean isValid = false;
+                Boolean valid = false;
 
-                if (currChar == 45 || currChar == 46 || currChar == 95) {
-                    isValid = true;
+                if (currChar == 45 || currChar == 46 || currChar == 95 ) {
+                    valid = true;
                     if (charIndex == 0 || charIndex == currPiece.length() - 1) {
-                        isValid = false;
+                        valid = false;
                     } else {
                         char left = currPiece.charAt(charIndex - 1);
                         char right = currPiece.charAt(charIndex + 1);
                         if (left == 45 || left == 46 || left == 95 || right == 45 || right == 46 || right == 95) {
-                            isValid = false;
+                            valid = false;
                         }
                     }
 
                 }
                 else if (currChar >= 48 && currChar <= 57) {
-                    isValid = true;
+                    valid = true;
                 }
                 else if (currChar >= 65 && currChar <= 90) {
-                    isValid = true;
+                    valid = true;
                 }
                 else if (currChar >= 97 && currChar <= 122) {
-                    isValid = true;
+                    valid = true;
                 }
 
-                if (!isValid) {
+                if (!valid) {
                     return false;
                 }
             }
         }
+
         return true;
     }
 }
