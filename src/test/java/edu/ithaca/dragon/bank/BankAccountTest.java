@@ -122,11 +122,11 @@ class BankAccountTest {
         //class: negative numbers, >2 decimals
         assertFalse(BankAccount.isAmountValid(-0.0000001)); //border
         assertFalse(BankAccount.isAmountValid(-1000.9999999999)); //border
-        assertFalse(BankAccount.isAmountValid(-1.505050)); //middle
+        assertFalse(BankAccount.isAmountValid(-1.505)); //middle
 
         //class: positive numbers, 0 decimals
         assertTrue(BankAccount.isAmountValid(0)); //border
-        assertTrue(BankAccount.isAmountValid(100000)); //border
+        assertTrue(BankAccount.isAmountValid(10000000)); //border
         assertTrue(BankAccount.isAmountValid(500)); //middle
 
         //class: positive numbers, 1-2 decimals
@@ -136,8 +136,8 @@ class BankAccountTest {
 
         //class: positive numbers, >2 decimals
         assertFalse(BankAccount.isAmountValid(0.000001)); //border
-        assertFalse(BankAccount.isAmountValid(100000.9999999999)); //border
-        assertFalse(BankAccount.isAmountValid(1.505050)); //middle
+        assertFalse(BankAccount.isAmountValid(10000000.8888888888)); //border
+        assertFalse(BankAccount.isAmountValid(1.505)); //middle
     }
 
     @Test
