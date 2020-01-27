@@ -107,6 +107,40 @@ class BankAccountTest {
     }
 
     @Test
+    void isAmountValidTest() {
+
+        //class: negative numbers, 0 decimals
+        assertFalse(BankAccount.isAmountValid(-1)); //border
+        assertFalse(BankAccount.isAmountValid(-100000)); //border
+        assertFalse(BankAccount.isAmountValid(-100)); //middle
+
+        //class: negative numbers,  1-2 decimals
+        assertFalse(BankAccount.isAmountValid(-1.0)); //border
+        assertFalse(BankAccount.isAmountValid(-100000.90)); //border
+        assertFalse(BankAccount.isAmountValid(-100.5)); //middle
+
+        //class: negative numbers, >2 decimals
+        assertFalse(BankAccount.isAmountValid(-1.001)); //border
+        assertFalse(BankAccount.isAmountValid(-1.9999999999)); //border
+        assertFalse(BankAccount.isAmountValid(-1.505050)); //middle
+
+        //class: positive numbers, 0 decimals
+        assertTrue(BankAccount.isAmountValid(0)); //border
+        assertTrue(BankAccount.isAmountValid(100000)); //border
+        assertTrue(BankAccount.isAmountValid(500)); //middle
+
+        //class: positive numbers, 1-2 decimals
+        assertTrue(BankAccount.isAmountValid(0.01)); //border
+        assertTrue(BankAccount.isAmountValid(100000.99)); //border
+        assertTrue(BankAccount.isAmountValid(500.5)); //middle
+
+        //class: positive numbers, >2 decimals
+        assertFalse(BankAccount.isAmountValid(1.001)); //border
+        assertFalse(BankAccount.isAmountValid(1.9999999999)); //border
+        assertFalse(BankAccount.isAmountValid(1.505050)); //middle
+    }
+
+    @Test
     void constructorTest() {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
