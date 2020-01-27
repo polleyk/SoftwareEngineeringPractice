@@ -46,55 +46,27 @@ public class BankAccount {
     public static boolean isEmailValid(String email){
 
         int length = email.length();
-        int atIndex = email.indexOf('@');
 
-        if (atIndex == -1 || atIndex == 0 || atIndex == length-1) {
+        if (email.indexOf('@') == -1 || email.indexOf('@') == length -1 || email.indexOf('@') == 0 ) {
             return false;
         }
-
-        int dot = email.lastIndexOf('.');
-        if (atIndex > dot || dot > email.length() - 3){
+        if (email.split("@").length > 2) {
             return false;
         }
-
-        String[] emailSplit = email.split("@");
-        for (int emailPiece = 0; emailPiece < emailSplit.length; emailPiece++) {
-
-            String currPiece = emailSplit[emailPiece];
-            for (int charIndex = 0; charIndex < currPiece.length(); charIndex++) {
-                char currChar = currPiece.charAt(charIndex);
-
-                Boolean valid = false;
-
-                if (currChar == 45 || currChar == 46 || currChar == 95 ) {
-                    valid = true;
-                    if (charIndex == 0 || charIndex == currPiece.length() - 1) {
-                        valid = false;
-                    } else {
-                        char left = currPiece.charAt(charIndex - 1);
-                        char right = currPiece.charAt(charIndex + 1);
-                        if (left == 45 || left == 46 || left == 95 || right == 45 || right == 46 || right == 95) {
-                            valid = false;
-                        }
-                    }
-
-                }
-                else if (currChar >= 48 && currChar <= 57) {
-                    valid = true;
-                }
-                else if (currChar >= 65 && currChar <= 90) {
-                    valid = true;
-                }
-                else if (currChar >= 97 && currChar <= 122) {
-                    valid = true;
-                }
-
-                if (!valid) {
-                    return false;
-                }
-            }
+        if (email.contains("#")) {
+            return false;
         }
-
+        if (email.indexOf('.') == -1 ||email.indexOf('.') == 0 || email.indexOf('.') == length -1 ||
+                email.contains(".@") || email.contains("@.") || email.contains("..")) {
+            return false;
+        }
+        if (email.indexOf('-') == 0 || email.indexOf('-') == length -1 ||
+                email.contains("-@") || email.contains("@-") || email.contains("--")) {
+            return false;
+        }
+        if (email.indexOf('.') > length - 3) {
+            return false;
+        }
         return true;
     }
 }
