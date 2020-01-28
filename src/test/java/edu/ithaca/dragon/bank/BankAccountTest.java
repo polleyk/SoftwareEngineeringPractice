@@ -29,9 +29,9 @@ class BankAccountTest {
         assertEquals(500, bankAccount.getBalance());
 
         //withdraw negative amount
-        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-1)); //border
-        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-100)); //middle
-        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-100000)); //border
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-1.01)); //border
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-100.5)); //middle
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-100000.99)); //border
 
         //withdraw amount >2 decimals
         assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(0.001)); //border
