@@ -68,7 +68,8 @@ public class BankAccount {
      * @throws IllegalArgumentException if amount is invalid
      */
     public void transfer (BankAccount account, double amount) throws InsufficientFundsException, IllegalArgumentException {
-
+        withdraw(amount);
+        account.deposit(amount);
     }
 
 
