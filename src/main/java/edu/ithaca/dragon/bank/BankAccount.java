@@ -53,7 +53,11 @@ public class BankAccount {
      * @throws IllegalArgumentException if amount is negative or decimal has more than 2 sig. digits
      */
     public void deposit (double amount) throws IllegalArgumentException {
-
+        if (isAmountValid(amount)) {
+            balance += amount;
+        } else {
+            throw new IllegalArgumentException("Invalid amount");
+        }
     }
 
 
