@@ -60,6 +60,17 @@ public class BankAccount {
         }
     }
 
+    /**
+     * @post this account balance is reduced by amount, passed account balance increased
+     * @param account the account to transfer the money into
+     * @param amount the amount of money to transfer
+     * @throws InsufficientFundsException if amount is greater than balance
+     * @throws IllegalArgumentException if amount is invalid
+     */
+    public void transfer (BankAccount account, double amount) throws InsufficientFundsException, IllegalArgumentException {
+
+    }
+
 
     public static boolean isEmailValid(String email){
 

@@ -99,6 +99,54 @@ class BankAccountTest {
     }
 
     @Test
+    void transferTest() throws IllegalArgumentException, InsufficientFundsException {
+        BankAccount acct1 = new BankAccount("a@b.com", 500);
+        BankAccount acct2 = new BankAccount("c@d.com", 0);
+
+        //transfer 0
+        acct1.transfer(acct2,0);
+        assertEquals(500, acct1.getBalance());
+        assertEquals(0, acct2.getBalance());
+
+        //transfer negative amount
+        assertThrows(IllegalArgumentException.class, () -> acct1.transfer(acct2,-1.01)); //border
+        assertThrows(IllegalArgumentException.class, () ->acct1.transfer(acct2,-100.5)); //middle
+        assertThrows(IllegalArgumentException.class, () -> acct1.transfer(acct2,-100000.99)); //border
+
+        //transfer amount >2 decimals
+        assertThrows(IllegalArgumentException.class, () -> acct1.transfer(acct2,0.001)); //border
+        assertThrows(IllegalArgumentException.class, () -> acct1.transfer(acct2,0.50505)); //middle
+        assertThrows(IllegalArgumentException.class, () -> acct1.transfer(acct2,0.888888888)); //border
+
+        //transfer negative amount >2 decimals
+        assertThrows(IllegalArgumentException.class, () -> acct1.transfer(acct2,-0.001)); //border
+        assertThrows(IllegalArgumentException.class, () -> acct1.transfer(acct2,-100.50505)); //middle
+        assertThrows(IllegalArgumentException.class, () -> acct1.transfer(acct2,-100000.888888888)); //border
+
+        //transfer more than in account
+        assertThrows(InsufficientFundsException.class, () -> acct2.transfer(acct1, 0.01)); //border
+        assertThrows(InsufficientFundsException.class, () -> acct1.transfer(acct2, 500.5)); //middle
+        assertThrows(InsufficientFundsException.class, () -> acct1.transfer(acct2, 1000000)); //border
+
+        //transfer less than or equal to amount in bank
+        acct1.transfer(acct2, 0.01); //border
+        assertEquals(499.99, acct1.getBalance());
+        assertEquals(0.01, acct2.getBalance());
+
+        acct2.transfer(acct1, 0.01); //border
+        assertEquals(500, acct1.getBalance());
+        assertEquals(0, acct2.getBalance());
+
+        acct1.transfer(acct2, 500); //border
+        assertEquals(0, acct1.getBalance());
+        assertEquals(500, acct2.getBalance());
+
+        acct2.transfer(acct1, 100.5); //middle
+        assertEquals(100.50, acct1.getBalance());
+        assertEquals(399.50, acct2.getBalance());
+    }
+
+    @Test
     void isEmailValidTest(){
         //sorry there are many
 
