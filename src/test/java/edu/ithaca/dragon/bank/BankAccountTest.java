@@ -90,12 +90,12 @@ class BankAccountTest {
 
         //deposit valid amount into empty account
         BankAccount bankAccount2 = new BankAccount("c@d.com", 0);
-        bankAccount.deposit(0.01); //border
-        assertEquals(500.01, bankAccount.getBalance());
-        bankAccount.deposit(100.5); //middle
-        assertEquals(600.51, bankAccount.getBalance());
-        bankAccount.deposit(100000); //border
-        assertEquals(100600.51, bankAccount.getBalance());
+        bankAccount2.deposit(0.01); //border
+        assertEquals(0.01, bankAccount2.getBalance());
+        bankAccount2.deposit(100.5); //middle
+        assertEquals(100.51, bankAccount2.getBalance());
+        bankAccount2.deposit(100000); //border
+        assertEquals(100100.51, bankAccount2.getBalance());
     }
 
     @Test
