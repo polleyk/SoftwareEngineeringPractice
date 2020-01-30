@@ -47,6 +47,16 @@ public class BankAccount {
     }
 
 
+    /**
+     * @post increases the balance by amount if amount is valid
+     * @param amount to be deposited
+     * @throws IllegalArgumentException if amount is negative or decimal has more than 2 sig. digits
+     */
+    public void deposit (double amount) throws IllegalArgumentException {
+
+    }
+
+
     public static boolean isEmailValid(String email){
 
         int length = email.length();

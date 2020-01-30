@@ -21,7 +21,7 @@ class BankAccountTest {
     }
 
     @Test
-    void withdrawTest() throws InsufficientFundsException {
+    void withdrawTest() throws InsufficientFundsException, IllegalArgumentException {
         BankAccount bankAccount = new BankAccount("a@b.com", 500);
 
         //withdraw 0
@@ -55,6 +55,47 @@ class BankAccountTest {
         assertEquals(300, bankAccount.getBalance());
         bankAccount.withdraw(300); //border
         assertEquals(0, bankAccount.getBalance());
+    }
+
+    @Test
+    void depositTest() throws IllegalArgumentException {
+        BankAccount bankAccount = new BankAccount("a@b.com", 500);
+
+        //deposit 0
+        bankAccount.deposit(0);
+        assertEquals(500, bankAccount.getBalance());
+
+        //deposit negative amount
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-1.01)); //border
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-100.5)); //middle
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-100000.99)); //border
+
+        //deposit amount >2 decimals
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(0.001)); //border
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(0.50505)); //middle
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(0.888888888)); //border
+
+        //deposit negative amount >2 decimals
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-0.001)); //border
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-100.50505)); //middle
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-100000.888888888)); //border
+
+        //deposit positive amount
+        bankAccount.deposit(0.01); //border
+        assertEquals(500.01, bankAccount.getBalance());
+        bankAccount.deposit(100.5); //middle
+        assertEquals(600.51, bankAccount.getBalance());
+        bankAccount.deposit(100000); //border
+        assertEquals(100600.51, bankAccount.getBalance());
+
+        //deposit valid amount into empty account
+        BankAccount bankAccount2 = new BankAccount("c@d.com", 0);
+        bankAccount.deposit(0.01); //border
+        assertEquals(500.01, bankAccount.getBalance());
+        bankAccount.deposit(100.5); //middle
+        assertEquals(600.51, bankAccount.getBalance());
+        bankAccount.deposit(100000); //border
+        assertEquals(100600.51, bankAccount.getBalance());
     }
 
     @Test
